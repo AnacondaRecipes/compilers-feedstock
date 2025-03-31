@@ -33,6 +33,9 @@ build:
 
 outputs:
   - name: c-compiler
+    script: |
+      mkdir -p $PREFIX/share/metainfo  # [unix]
+      echo "This is a metapackage for the C compiler" > $PREFIX/share/metainfo/c-compiler-placeholder  # [unix]
     requirements:
       run:
         - {{ compiler('c') }}
@@ -62,6 +65,9 @@ outputs:
         recipes.  Use the Jinja template function compiler('c') instead.
 
   - name: cxx-compiler
+    script: |
+      mkdir -p $PREFIX/share/metainfo  # [unix] 
+      echo "This is a metapackage for the C++ compiler" > $PREFIX/share/metainfo/cxx-compiler-placeholder  # [unix]
     requirements:
       run:
         - {{ compiler('cxx') }}
@@ -88,6 +94,9 @@ outputs:
         recipes.  Use the Jinja template function compiler('cxx') instead.
 
   - name: fortran-compiler
+    script: |
+      mkdir -p $PREFIX/share/metainfo  # [unix]
+      echo "This is a metapackage for the Fortran compiler" > $PREFIX/share/metainfo/fortran-compiler-placeholder  # [unix]
     requirements:
       run:
         - {{ compiler('fortran') }}
@@ -118,6 +127,9 @@ outputs:
         recipes.  Use the Jinja template function compiler('fortran') instead.
 
   - name: compilers
+    script: |
+      mkdir -p $PREFIX/share/metainfo  # [unix]
+      echo "This is a metapackage for all compilers" > $PREFIX/share/metainfo/compilers-placeholder  # [unix]
     requirements:
       run:
         - {{ pin_subpackage('c-compiler', exact=True) }}
