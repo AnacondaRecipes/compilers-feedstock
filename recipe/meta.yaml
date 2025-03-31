@@ -33,9 +33,22 @@ build:
 
 outputs:
   - name: c-compiler
-    script: |
-      mkdir -p $PREFIX/share/metainfo  # [unix]
-      echo "This is a metapackage for the C compiler" > $PREFIX/share/metainfo/c-compiler-placeholder  # [unix]
+    build:
+      noarch: False
+    about:
+      home: https://conda-forge.org
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+      summary: A metapackage to obtain a C compiler
+      description: |
+        This package is a generic way to obtain the C compiler for your system
+        that conda-forge used to compile its ecosystem.  This compiler is,
+        therefore, guaranteed to be ABI compatible with the conda packages
+        you have installed.
+
+        This compiler metapackage is a convenience ONLY for users.
+        Do NOT use this package as a build or host dependency in other
+        recipes.  Use the Jinja template function compiler('c') instead.
     requirements:
       run:
         - {{ compiler('c') }}
@@ -50,24 +63,24 @@ outputs:
 {%- for command in commands['c-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
+
+  - name: cxx-compiler
+    build:
+      noarch: False
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
-      summary: A metapackage to obtain a C compiler
+      license_file: LICENSE.txt
+      summary: A metapackage to obtain a C++ compiler
       description: |
-        This package is a generic way to obtain the C compiler for your system
+        This package is a generic way to obtain the C++ compiler for your system
         that conda-forge used to compile its ecosystem.  This compiler is,
         therefore, guaranteed to be ABI compatible with the conda packages
         you have installed.
 
         This compiler metapackage is a convenience ONLY for users.
         Do NOT use this package as a build or host dependency in other
-        recipes.  Use the Jinja template function compiler('c') instead.
-
-  - name: cxx-compiler
-    script: |
-      mkdir -p $PREFIX/share/metainfo  # [unix] 
-      echo "This is a metapackage for the C++ compiler" > $PREFIX/share/metainfo/cxx-compiler-placeholder  # [unix]
+        recipes.  Use the Jinja template function compiler('cxx') instead.
     requirements:
       run:
         - {{ compiler('cxx') }}
@@ -79,24 +92,24 @@ outputs:
 {%- for command in commands['cxx-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
+
+  - name: fortran-compiler
+    build:
+      noarch: False
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
-      summary: A metapackage to obtain a C++ compiler
+      license_file: LICENSE.txt
+      summary: A metapackage to obtain a Fortran compiler
       description: |
-        This package is a generic way to obtain the C++ compiler for your system
-        that conda-forge used to compile its ecosystem.  This compiler is,
-        therefore, guaranteed to be ABI compatible with the conda packages
+        This package is a generic way to obtain the Fortran compiler for your
+        system that conda-forge used to compile its ecosystem.  This compiler
+        is, therefore, guaranteed to be ABI compatible with the conda packages
         you have installed.
 
         This compiler metapackage is a convenience ONLY for users.
         Do NOT use this package as a build or host dependency in other
-        recipes.  Use the Jinja template function compiler('cxx') instead.
-
-  - name: fortran-compiler
-    script: |
-      mkdir -p $PREFIX/share/metainfo  # [unix]
-      echo "This is a metapackage for the Fortran compiler" > $PREFIX/share/metainfo/fortran-compiler-placeholder  # [unix]
+        recipes.  Use the Jinja template function compiler('fortran') instead.
     requirements:
       run:
         - {{ compiler('fortran') }}
@@ -112,24 +125,15 @@ outputs:
 {%- for command in commands['fortran-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
+
+  - name: compilers
+    build:
+      noarch: False
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
-      summary: A metapackage to obtain a Fortran compiler
-      description: |
-        This package is a generic way to obtain the Fortran compiler for your
-        system that conda-forge used to compile its ecosystem.  This compiler
-        is, therefore, guaranteed to be ABI compatible with the conda packages
-        you have installed.
-
-        This compiler metapackage is a convenience ONLY for users.
-        Do NOT use this package as a build or host dependency in other
-        recipes.  Use the Jinja template function compiler('fortran') instead.
-
-  - name: compilers
-    script: |
-      mkdir -p $PREFIX/share/metainfo  # [unix]
-      echo "This is a metapackage for all compilers" > $PREFIX/share/metainfo/compilers-placeholder  # [unix]
+      license_file: LICENSE.txt
+      summary: A metapackage to obtain compilers
     requirements:
       run:
         - {{ pin_subpackage('c-compiler', exact=True) }}
