@@ -57,11 +57,14 @@ outputs:
         - llvm-openmp          # [osx]
     test:
       commands:
-        - echo "Testing c-compiler metapackage"      # [linux]
-        - $CC --help                                 # [osx]
-{%- for command in commands['c-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null           # [osx]
-{%- endfor %}
+{% if target_platform == 'linux-64' %}
+        - echo "Testing c-compiler metapackage"
+{% else %}
+        - $CC --help
+{% for command in commands['c-compiler'] %}
+        - {{ command }} --help > /dev/null
+{% endfor %}
+{% endif %}
 
   - name: cxx-compiler
     about:
@@ -85,11 +88,14 @@ outputs:
         - gxx                  # [linux]
     test:
       commands:
-        - echo "Testing cxx-compiler metapackage"    # [linux]
-        - $CXX --help                                # [osx]
-{%- for command in commands['cxx-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null           # [osx]
-{%- endfor %}
+{% if target_platform == 'linux-64' %}
+        - echo "Testing cxx-compiler metapackage"
+{% else %}
+        - $CXX --help
+{% for command in commands['cxx-compiler'] %}
+        - {{ command }} --help > /dev/null
+{% endfor %}
+{% endif %}
 
   - name: fortran-compiler
     about:
@@ -117,11 +123,14 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - echo "Testing fortran-compiler metapackage"  # [linux]
-        - $FC --help                                   # [osx]
-{%- for command in commands['fortran-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null             # [osx]
-{%- endfor %}
+{% if target_platform == 'linux-64' %}
+        - echo "Testing fortran-compiler metapackage"
+{% else %}
+        - $FC --help
+{% for command in commands['fortran-compiler'] %}
+        - {{ command }} --help > /dev/null
+{% endfor %}
+{% endif %}
 
   - name: compilers
     build:
@@ -138,10 +147,13 @@ outputs:
         - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
       commands:
-        - echo "Testing compilers metapackage"       # [linux]
-        - $CC --help                                 # [osx]
-        - $CXX --help                                # [osx]
-        - $FC --help                                 # [osx]
+{% if target_platform == 'linux-64' %}
+        - echo "Testing compilers metapackage"
+{% else %}
+        - $CC --help
+        - $CXX --help
+        - $FC --help
+{% endif %}
 
 about:
   home: https://conda-forge.org
