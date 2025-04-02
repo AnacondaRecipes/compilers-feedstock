@@ -56,6 +56,8 @@ outputs:
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
     test:
+      requires:
+        - conda  # [linux]
       commands:
         - echo "Testing c-compiler package structure"  # [linux]
         - conda list  # [linux]
@@ -85,6 +87,8 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
         - gxx                  # [linux]
     test:
+      requires:
+        - conda  # [linux]
       commands:
         - echo "Testing cxx-compiler package structure"  # [linux]
         - conda list  # [linux]
@@ -118,6 +122,8 @@ outputs:
         - gfortran             # [linux or osx]
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
+      requires:
+        - conda  # [linux]
       commands:
         - echo "Testing fortran-compiler package structure"  # [linux]
         - conda list  # [linux]
@@ -140,6 +146,8 @@ outputs:
         - {{ pin_subpackage('cxx-compiler', exact=True) }}
         - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
+      requires:
+        - conda  # [linux]
       commands:
         - echo "Testing compilers metapackage"  # [linux]
         - conda list  # [linux]
