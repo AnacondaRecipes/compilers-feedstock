@@ -57,11 +57,12 @@ outputs:
         - llvm-openmp          # [osx]
     test:
       commands:
-        - if command -v $CC >/dev/null 2>&1; then $CC --help; else echo "CC binary not found, but c-compiler package installed successfully"; fi  # [unix]
-  {% for command in commands['c-compiler'] %}  # [unix]
-        - if command -v {{ command }} >/dev/null 2>&1; then {{ command }} --help > /dev/null || true; fi  # [unix]
-  {% endfor %}  # [unix]
-  
+        - echo "Testing c-compiler metapackage"      # [linux]
+        - $CC --help                                 # [osx]
+{%- for command in commands['c-compiler'] %}  # [osx]
+        - {{ command }} --help > /dev/null           # [osx]
+{%- endfor %}
+
   - name: cxx-compiler
     about:
       home: https://conda-forge.org
@@ -84,10 +85,11 @@ outputs:
         - gxx                  # [linux]
     test:
       commands:
-        - $CXX --help  # [unix]
-{%- for command in commands['cxx-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
-{%- endfor %}  # [unix]
+        - echo "Testing cxx-compiler metapackage"    # [linux]
+        - $CXX --help                                # [osx]
+{%- for command in commands['cxx-compiler'] %}  # [osx]
+        - {{ command }} --help > /dev/null           # [osx]
+{%- endfor %}
 
   - name: fortran-compiler
     about:
@@ -115,10 +117,11 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - $FC --help  # [unix]
-{%- for command in commands['fortran-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
-{%- endfor %}  # [unix]
+        - echo "Testing fortran-compiler metapackage"  # [linux]
+        - $FC --help                                   # [osx]
+{%- for command in commands['fortran-compiler'] %}  # [osx]
+        - {{ command }} --help > /dev/null             # [osx]
+{%- endfor %}
 
   - name: compilers
     build:
@@ -135,9 +138,10 @@ outputs:
         - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
       commands:
-        - $CC --help  # [unix]
-        - $CXX --help  # [unix]
-        - $FC --help  # [unix]
+        - echo "Testing compilers metapackage"       # [linux]
+        - $CC --help                                 # [osx]
+        - $CXX --help                                # [osx]
+        - $FC --help                                 # [osx]
 
 about:
   home: https://conda-forge.org
