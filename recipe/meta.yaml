@@ -53,8 +53,6 @@ outputs:
     requirements:
       run:
         - {{ compiler('c') }}
-        # - binutils             # [linux]
-        # - gcc                  # [linux]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
@@ -87,7 +85,6 @@ outputs:
       run:
         - {{ compiler('cxx') }}
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
-        # - gxx                  # [linux]
     test:
       commands:
         - $CXX --help  # [unix]
@@ -116,11 +113,9 @@ outputs:
     requirements:
       run:
         - {{ compiler('fortran') }}
-        # - binutils             # [linux]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
-        - gfortran             # [osx]
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
