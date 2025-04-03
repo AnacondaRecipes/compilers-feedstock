@@ -53,13 +53,14 @@ outputs:
     requirements:
       run:
         - {{ compiler('c') }}
+        - binutils             # [linux]
+        - gcc                  # [linux]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
     test:
       commands:
-        - test -f $CC  # [unix]
-        - $CC --version  # [unix]
+        - $CC --help  # [unix]
 {%- for command in commands['c-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
@@ -86,10 +87,10 @@ outputs:
       run:
         - {{ compiler('cxx') }}
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
+        - gxx                  # [linux]
     test:
       commands:
-        - test -f $CXX  # [unix]
-        - $CXX --version  # [unix]
+        - $CXX --help  # [unix]
 {%- for command in commands['cxx-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
@@ -115,14 +116,15 @@ outputs:
     requirements:
       run:
         - {{ compiler('fortran') }}
+        - binutils             # [linux]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
+        - gfortran             # [unix]
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - test -f $FC  # [unix]
-        - $FC --version  # [unix]
+        - $FC --help  # [unix]
 {%- for command in commands['fortran-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
