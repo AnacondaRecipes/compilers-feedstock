@@ -57,10 +57,10 @@ outputs:
         - llvm-openmp          # [osx]
     test:
       commands:
-        - $CC --help  # [osx]
-{%- for command in commands['c-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null  # [osx]
-{%- endfor %}  # [osx]
+        - $CC --help  # [osx or win]
+{%- for command in commands['c-compiler'] %}  # [osx or win]
+        - {{ command }} --help > /dev/null  # [osx or win]
+{%- endfor %}  # [osx or win]
 
   - name: cxx-compiler
     about:
@@ -84,10 +84,10 @@ outputs:
         - gxx                  # [linux]
     test:
       commands:
-        - $CXX --help  # [osx]
-{%- for command in commands['cxx-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null  # [osx]
-{%- endfor %}  # [osx]
+        - $CXX --help  # [osx or win]
+{%- for command in commands['cxx-compiler'] %}  # [osx or win]
+        - {{ command }} --help > /dev/null  # [osx or win]
+{%- endfor %}  # [osx or win]
 
   - name: fortran-compiler
     about:
@@ -115,10 +115,10 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - $FC --help  # [osx]
-{%- for command in commands['fortran-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null  # [osx]
-{%- endfor %}  # [osx]
+        - $FC --help  # [osx or win]
+{%- for command in commands['fortran-compiler'] %}  # [osx or win]
+        - {{ command }} --help > /dev/null  # [osx or win]
+{%- endfor %}  # [osx or win]
 
   - name: compilers
     build:
