@@ -178,3 +178,10 @@ extra:
     - scopatz
     - chrisburr
     - isuruf
+  skip_lint:
+    - should_use_compilers
+    - compilers_must_be_in_build
+    - outputs_not_unique
+    - missing_dev_url
+    - missing_tests
+    - missing_documentation
