@@ -10,6 +10,7 @@
     'vs2008': [],
     'vs2010': [],
     'vs2015': [],
+    'vs2019': [],
   }[c_compiler],
   'cxx-compiler': {
     'gxx': ['g++', 'c++'],
@@ -17,6 +18,7 @@
     'vs2008': [],
     'vs2010': [],
     'vs2015': [],
+    'vs2019': [],
   }[cxx_compiler],
   'fortran-compiler': {
     'gfortran': ['gfortran'],
