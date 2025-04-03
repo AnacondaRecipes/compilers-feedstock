@@ -86,7 +86,7 @@ outputs:
     requirements:
       run:
         - {{ compiler('cxx') }}
-        - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
+        - {{ pin_subpackage('c-compiler' }}  # [unix]
         - gxx                  # [linux]
     test:
       commands:
@@ -121,7 +121,7 @@ outputs:
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
         - gfortran             # [unix]
-        - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
+        - {{ pin_subpackage('c-compiler'}}  # [linux]
     test:
       commands:
         - $FC --help  # [unix]
@@ -142,9 +142,9 @@ outputs:
       summary: A metapackage to obtain compilers
     requirements:
       run:
-        - {{ pin_subpackage('c-compiler', exact=True) }}
-        - {{ pin_subpackage('cxx-compiler', exact=True) }}
-        - {{ pin_subpackage('fortran-compiler', exact=True) }}
+        - {{ pin_subpackage('c-compiler'}}
+        - {{ pin_subpackage('cxx-compiler'}}
+        - {{ pin_subpackage('fortran-compiler'}}
     test:
       commands:
         - $CC --help  # [unix]
