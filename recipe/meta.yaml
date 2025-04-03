@@ -53,8 +53,8 @@ outputs:
     requirements:
       run:
         - {{ compiler('c') }}
-        - binutils             # [linux]
-        - gcc                  # [linux]
+        # - binutils             # [linux]
+        # - gcc                  # [linux]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
@@ -86,8 +86,8 @@ outputs:
     requirements:
       run:
         - {{ compiler('cxx') }}
-        - {{ pin_subpackage('c-compiler' }}  # [unix]
-        - gxx                  # [linux]
+        - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
+        # - gxx                  # [linux]
     test:
       commands:
         - $CXX --help  # [unix]
@@ -116,12 +116,12 @@ outputs:
     requirements:
       run:
         - {{ compiler('fortran') }}
-        - binutils             # [linux]
+        # - binutils             # [linux]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
-        - gfortran             # [unix]
-        - {{ pin_subpackage('c-compiler'}}  # [linux]
+        - gfortran             # [osx]
+        - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
         - $FC --help  # [unix]
@@ -142,9 +142,9 @@ outputs:
       summary: A metapackage to obtain compilers
     requirements:
       run:
-        - {{ pin_subpackage('c-compiler'}}
-        - {{ pin_subpackage('cxx-compiler'}}
-        - {{ pin_subpackage('fortran-compiler'}}
+        - {{ pin_subpackage('c-compiler', exact=True) }}
+        - {{ pin_subpackage('cxx-compiler', exact=True) }}
+        - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
       commands:
         - $CC --help  # [unix]
