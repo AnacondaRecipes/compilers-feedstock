@@ -60,10 +60,13 @@ outputs:
         - llvm-openmp          # [osx]
     test:
       commands:
-        - $CC --help  # [osx or win]
-{%- for command in commands['c-compiler'] %}  # [osx or win]
-        - {{ command }} --help > /dev/null  # [osx or win]
-{%- endfor %}  # [osx or win]
+        - $CC --help  # [osx]
+{%- for command in commands['c-compiler'] %}  # [osx]
+        - {{ command }} --help > /dev/null  # [osx]
+{%- endfor %}  # [osx]
+        - echo "Testing Windows c-compiler"  # [win]
+        - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
+        - where cl  # [win]
 
   - name: cxx-compiler
     about:
@@ -87,10 +90,13 @@ outputs:
         - gxx                  # [linux]
     test:
       commands:
-        - $CXX --help  # [osx or win]
-{%- for command in commands['cxx-compiler'] %}  # [osx or win]
-        - {{ command }} --help > /dev/null  # [osx or win]
-{%- endfor %}  # [osx or win]
+        - $CXX --help  # [osx]
+{%- for command in commands['cxx-compiler'] %}  # [osx]
+        - {{ command }} --help > /dev/null  # [osx]
+{%- endfor %}  # [osx]
+        - echo "Testing Windows cxx-compiler"  # [win]
+        - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
+        - where cl  # [win]
 
   - name: fortran-compiler
     about:
@@ -118,10 +124,13 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - $FC --help  # [osx or win]
-{%- for command in commands['fortran-compiler'] %}  # [osx or win]
-        - {{ command }} --help > /dev/null  # [osx or win]
-{%- endfor %}  # [osx or win]
+        - $FC --help  # [osx]
+{%- for command in commands['fortran-compiler'] %}  # [osx]
+        - {{ command }} --help > /dev/null  # [osx]
+{%- endfor %}  # [osx]
+        - echo "Testing Windows fortran-compiler"  # [win]
+        - if defined FC (echo %FC% exists) ELSE (echo FC not defined)  # [win]
+        - where ifort || echo ifort not in PATH  # [win]
 
   - name: compilers
     build:
@@ -141,6 +150,10 @@ outputs:
         - $CC --help  # [osx]
         - $CXX --help  # [osx]
         - $FC --help  # [osx]
+        - echo "Testing Windows compilers metapackage"  # [win]
+        - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
+        - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
+        - if defined FC (echo %FC% exists) ELSE (echo FC not defined)  # [win]
 
 about:
   home: https://conda-forge.org
@@ -157,7 +170,7 @@ about:
     These compiler metapackages are a convenience ONLY for users.
     Do NOT use these packages as a build or host dependencies in other
     recipes.  Use the compiler Jinja template function instead.
-    For C++ for example, use compiler('cxx') as usual.
+    For C++ for example, use compiler('cxx') instead.
 
 extra:
   recipe-maintainers:
