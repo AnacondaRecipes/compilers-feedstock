@@ -58,7 +58,8 @@ outputs:
         - llvm-openmp          # [osx]
     test:
       commands:
-        - $CC --help  # [unix]
+        - test -f $CC  # [unix]
+        - $CC --version  # [unix]
 {%- for command in commands['c-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
@@ -87,7 +88,8 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
     test:
       commands:
-        - $CXX --help  # [unix]
+        - test -f $CXX  # [unix]
+        - $CXX --version  # [unix]
 {%- for command in commands['cxx-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
@@ -119,7 +121,8 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - $FC --help  # [unix]
+        - test -f $FC  # [unix]
+        - $FC --version  # [unix]
 {%- for command in commands['fortran-compiler'] %}  # [unix]
         - {{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
