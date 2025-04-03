@@ -60,10 +60,10 @@ outputs:
         - llvm-openmp          # [osx]
     test:
       commands:
-        - $CC --help  # [osx]
-{%- for command in commands['c-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null  # [osx]
-{%- endfor %}  # [osx]
+        - $CC --help  # [unix]
+{%- for command in commands['c-compiler'] %}  # [unix]
+        - {{ command }} --help > /dev/null  # [unix]
+{%- endfor %}  # [unix]
         - echo "Testing Windows c-compiler"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - where cl  # [win]
@@ -90,10 +90,10 @@ outputs:
         - gxx                  # [linux]
     test:
       commands:
-        - $CXX --help  # [osx]
-{%- for command in commands['cxx-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null  # [osx]
-{%- endfor %}  # [osx]
+        - $CXX --help  # [unix]
+{%- for command in commands['cxx-compiler'] %}  # [unix]
+        - {{ command }} --help > /dev/null  # [unix]
+{%- endfor %}  # [unix]
         - echo "Testing Windows cxx-compiler"  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
         - where cl  # [win]
@@ -120,14 +120,14 @@ outputs:
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
-        - gfortran             # [linux or osx]
+        - gfortran             # [unix]
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - $FC --help  # [osx]
-{%- for command in commands['fortran-compiler'] %}  # [osx]
-        - {{ command }} --help > /dev/null  # [osx]
-{%- endfor %}  # [osx]
+        - $FC --help  # [unix]
+{%- for command in commands['fortran-compiler'] %}  # [unix]
+        - {{ command }} --help > /dev/null  # [unix]
+{%- endfor %}  # [unix]
         - echo "Testing Windows fortran-compiler"  # [win]
         - if defined FC (echo %FC% exists) ELSE (echo FC not defined)  # [win]
         - where ifort || echo ifort not in PATH  # [win]
@@ -147,9 +147,9 @@ outputs:
         - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
       commands:
-        - $CC --help  # [osx]
-        - $CXX --help  # [osx]
-        - $FC --help  # [osx]
+        - $CC --help  # [unix]
+        - $CXX --help  # [unix]
+        - $FC --help  # [unix]
         - echo "Testing Windows compilers metapackage"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
