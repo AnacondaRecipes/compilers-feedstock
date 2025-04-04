@@ -137,8 +137,6 @@ outputs:
         - where ifort || echo ifort not in PATH  # [win]
 
   - name: compilers
-    build:
-      noarch: False
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
