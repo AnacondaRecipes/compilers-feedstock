@@ -53,7 +53,8 @@ outputs:
     requirements:
       run:
         - {{ compiler('c') }}
-        - binutils                  # [linux]
+        - binutils_aarch64     # [aarch64]
+        - binutils_linux-64    # [linux64]
         - gcc_linux-aarch64    # [aarch64]
         - gcc_linux-64         # [linux64]
         - cctools >=949.0.1         # [osx]
@@ -118,7 +119,8 @@ outputs:
     requirements:
       run:
         - {{ compiler('fortran') }}
-        - binutils             # [linux]
+        - binutils_aarch64     # [aarch64]
+        - binutils_linux-64    # [linux64]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
