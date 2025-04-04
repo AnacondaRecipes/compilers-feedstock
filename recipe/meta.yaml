@@ -54,8 +54,8 @@ outputs:
       run:
         - {{ compiler('c') }}
         - binutils                  # [linux]
-        - gcc_impl_linux-aarch64    # [aarch64]
-        - gcc_impl_linux-64         # [linux64]
+        - gcc_linux-aarch64    # [aarch64]
+        - gcc_linux-64         # [linux64]
         - cctools >=949.0.1         # [osx]
         - ld64 >=530                # [osx]
         - llvm-openmp               # [osx]
@@ -88,7 +88,8 @@ outputs:
       run:
         - {{ compiler('cxx') }}
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
-        - gxx                  # [linux]
+        - gxx_linux-aarch64    # [aarch64]
+        - gxx_linux-64         # [linux64]
     test:
       commands:
         - $CXX --help  # [unix]
