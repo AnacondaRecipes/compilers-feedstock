@@ -62,13 +62,14 @@ outputs:
         - llvm-openmp               # [osx]
     test:
       commands:
-        - $CC --help  # [linux]
-{% for command in commands['c-compiler'] %}  # [linux]
-        - {{ command }} --help > /dev/null  # [linux]
-{% endfor %}
-        # Special commands for macOS to avoid dictionary issues
-        - echo "Testing C compiler on macOS"  # [osx]
-        - $CC --help  # [osx]
+        # Debug output only for Linux
+        - echo "PATH: $PATH"  # [linux]
+        - which $CC  # [linux]
+        # Regular test command
+        - $CC --help  # [unix]
+{%- for command in commands['c-compiler'] %}  # [unix]
+        - {{ command }} --help > /dev/null  # [unix]
+{%- endfor %}  # [unix]
         - echo "Testing Windows c-compiler"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - where cl  # [win]
@@ -96,13 +97,14 @@ outputs:
         - gxx_linux-64         # [linux64]
     test:
       commands:
-        - $CXX --help  # [linux]
-{% for command in commands['cxx-compiler'] %}  # [linux]
-        - {{ command }} --help > /dev/null  # [linux]
-{% endfor %}
-        # Special commands for macOS to avoid dictionary issues
-        - echo "Testing C++ compiler on macOS"  # [osx]
-        - $CXX --help  # [osx]
+        # Debug output only for Linux
+        - echo "PATH: $PATH"  # [linux]
+        - which $CXX  # [linux]
+        # Regular test command
+        - $CXX --help  # [unix]
+{%- for command in commands['cxx-compiler'] %}  # [unix]
+        - {{ command }} --help > /dev/null  # [unix]
+{%- endfor %}  # [unix]
         - echo "Testing Windows cxx-compiler"  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
         - where cl  # [win]
@@ -134,13 +136,14 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - $FC --help  # [linux]
-{% for command in commands['fortran-compiler'] %}  # [linux]
-        - {{ command }} --help > /dev/null  # [linux]
-{% endfor %}
-        # Special commands for macOS to avoid dictionary issues
-        - echo "Testing Fortran compiler on macOS"  # [osx]
-        - $FC --help  # [osx]
+        # Debug output only for Linux
+        - echo "PATH: $PATH"  # [linux]
+        - which $FC  # [linux]
+        # Regular test command
+        - $FC --help  # [unix]
+{%- for command in commands['fortran-compiler'] %}  # [unix]
+        - {{ command }} --help > /dev/null  # [unix]
+{%- endfor %}  # [unix]
         - echo "Testing Windows fortran-compiler"  # [win]
         - if defined FC (echo %FC% exists) ELSE (echo FC not defined)  # [win]
         - where ifort || echo ifort not in PATH  # [win]
@@ -158,14 +161,9 @@ outputs:
         - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
       commands:
-        - $CC --help  # [linux]
-        - $CXX --help  # [linux]
-        - $FC --help  # [linux]
-        # Special commands for macOS to avoid dictionary issues
-        - echo "Testing compilers metapackage on macOS"  # [osx]
-        - $CC --help  # [osx]
-        - $CXX --help  # [osx]
-        - $FC --help  # [osx]
+        - $CC --help  # [unix]
+        - $CXX --help  # [unix]
+        - $FC --help  # [unix]
         - echo "Testing Windows compilers metapackage"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
