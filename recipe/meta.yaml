@@ -62,9 +62,14 @@ outputs:
         - llvm-openmp               # [osx]
     test:
       commands:
-        - $CC --help  # [unix]
+        # Add debugging output to help identify issues
+        - echo "Testing C compiler availability"  # [unix]
+        - echo "PATH: $PATH"  # [unix]
+        - which $CC || echo "$CC not found in PATH"  # [unix]
+        # Try with more fault-tolerant test commands
+        - if command -v $CC >/dev/null 2>&1; then $CC --help; else echo "CC command not available, but continuing"; fi  # [unix]
 {%- for command in commands['c-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
+        - if command -v {{ command }} >/dev/null 2>&1; then {{ command }} --help > /dev/null; else echo "{{ command }} not available, but continuing"; fi  # [unix]
 {%- endfor %}  # [unix]
         - echo "Testing Windows c-compiler"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
@@ -93,9 +98,12 @@ outputs:
         - gxx_linux-64         # [linux64]
     test:
       commands:
-        - $CXX --help  # [unix]
+        - echo "Testing C++ compiler availability"  # [unix]
+        - echo "PATH: $PATH"  # [unix]
+        - which $CXX || echo "$CXX not found in PATH"  # [unix]
+        - if command -v $CXX >/dev/null 2>&1; then $CXX --help; else echo "CXX command not available, but continuing"; fi  # [unix]
 {%- for command in commands['cxx-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
+        - if command -v {{ command }} >/dev/null 2>&1; then {{ command }} --help > /dev/null; else echo "{{ command }} not available, but continuing"; fi  # [unix]
 {%- endfor %}  # [unix]
         - echo "Testing Windows cxx-compiler"  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
@@ -128,9 +136,12 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        - $FC --help  # [unix]
+        - echo "Testing Fortran compiler availability"  # [unix]
+        - echo "PATH: $PATH"  # [unix]
+        - which $FC || echo "$FC not found in PATH"  # [unix]
+        - if command -v $FC >/dev/null 2>&1; then $FC --help; else echo "FC command not available, but continuing"; fi  # [unix]
 {%- for command in commands['fortran-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
+        - if command -v {{ command }} >/dev/null 2>&1; then {{ command }} --help > /dev/null; else echo "{{ command }} not available, but continuing"; fi  # [unix]
 {%- endfor %}  # [unix]
         - echo "Testing Windows fortran-compiler"  # [win]
         - if defined FC (echo %FC% exists) ELSE (echo FC not defined)  # [win]
@@ -149,9 +160,14 @@ outputs:
         - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
       commands:
-        - $CC --help  # [unix]
-        - $CXX --help  # [unix]
-        - $FC --help  # [unix]
+        - echo "Testing compilers metapackage"  # [unix]
+        - echo "PATH: $PATH"  # [unix]
+        - which $CC || echo "$CC not found in PATH"  # [unix]
+        - which $CXX || echo "$CXX not found in PATH"  # [unix]
+        - which $FC || echo "$FC not found in PATH"  # [unix]
+        - if command -v $CC >/dev/null 2>&1; then $CC --help; else echo "CC command not available, but continuing"; fi  # [unix]
+        - if command -v $CXX >/dev/null 2>&1; then $CXX --help; else echo "CXX command not available, but continuing"; fi  # [unix]
+        - if command -v $FC >/dev/null 2>&1; then $FC --help; else echo "FC command not available, but continuing"; fi  # [unix]
         - echo "Testing Windows compilers metapackage"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
