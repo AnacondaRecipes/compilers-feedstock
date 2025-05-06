@@ -62,14 +62,20 @@ outputs:
         - llvm-openmp               # [osx]
     test:
       commands:
-        # Debug output only for Linux
-        - echo "PATH: $PATH"  # [linux]
-        - which $CC  # [linux]
-        # Regular test command
         - $CC --help  # [unix]
-{%- for command in commands['c-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
-{%- endfor %}  # [unix]
+{% if c_compiler == 'gcc' %}  # [unix]
+        - cc --help > /dev/null  # [unix]
+        - cpp --help > /dev/null  # [unix]
+        - gcc --help > /dev/null  # [unix]
+        - gcc-ar --help > /dev/null  # [unix]
+        - gcc-nm --help > /dev/null  # [unix]
+        - gcc-ranlib --help > /dev/null  # [unix]
+        - gcov --help > /dev/null  # [unix]
+        - gcov-dump --help > /dev/null  # [unix]
+        - gcov-tool --help > /dev/null  # [unix]
+{% elif c_compiler == 'clang' %}  # [unix]
+        - clang --help > /dev/null  # [unix]
+{% endif %}  # [unix]
         - echo "Testing Windows c-compiler"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - where cl  # [win]
@@ -97,14 +103,13 @@ outputs:
         - gxx_linux-64         # [linux64]
     test:
       commands:
-        # Debug output only for Linux
-        - echo "PATH: $PATH"  # [linux]
-        - which $CXX  # [linux]
-        # Regular test command
         - $CXX --help  # [unix]
-{%- for command in commands['cxx-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
-{%- endfor %}  # [unix]
+{% if cxx_compiler == 'gxx' %}  # [unix]
+        - g++ --help > /dev/null  # [unix]
+        - c++ --help > /dev/null  # [unix]
+{% elif cxx_compiler == 'clangxx' %}  # [unix]
+        - clang++ --help > /dev/null  # [unix]
+{% endif %}  # [unix]
         - echo "Testing Windows cxx-compiler"  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
         - where cl  # [win]
@@ -136,14 +141,12 @@ outputs:
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
-        # Debug output only for Linux
-        - echo "PATH: $PATH"  # [linux]
-        - which $FC  # [linux]
-        # Regular test command
         - $FC --help  # [unix]
-{%- for command in commands['fortran-compiler'] %}  # [unix]
-        - {{ command }} --help > /dev/null  # [unix]
-{%- endfor %}  # [unix]
+{% if fortran_compiler == 'gfortran' %}  # [unix]
+        - gfortran --help > /dev/null  # [unix]
+{% elif fortran_compiler == 'intel-fortran' %}  # [unix]
+        - ifort --help > /dev/null  # [unix]
+{% endif %}  # [unix]
         - echo "Testing Windows fortran-compiler"  # [win]
         - if defined FC (echo %FC% exists) ELSE (echo FC not defined)  # [win]
         - where ifort || echo ifort not in PATH  # [win]
