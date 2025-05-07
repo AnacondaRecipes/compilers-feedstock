@@ -36,13 +36,6 @@ build:
 
 outputs:
   - name: c-compiler
-    build:
-      script: |
-        # Create placeholder file to ensure package is not empty
-        mkdir -p ${PREFIX}/share/compilers  # [unix]
-        echo "C compiler metapackage" > ${PREFIX}/share/compilers/c-compiler.txt  # [unix]
-        if not exist %PREFIX%\share\compilers mkdir %PREFIX%\share\compilers  # [win]
-        echo C compiler metapackage > %PREFIX%\share\compilers\c-compiler.txt  # [win]
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
@@ -61,38 +54,27 @@ outputs:
       run:
         - {{ compiler('c') }}
         - binutils_aarch64     # [aarch64]
-        - binutils_linux-64    # [linux-64]
+        - binutils_linux-64    # [linux64]
         - gcc_linux-aarch64    # [aarch64]
-        - gcc_linux-64         # [linux-64]
+        - gcc_linux-64         # [linux64]
         - cctools >=949.0.1         # [osx]
         - ld64 >=530                # [osx]
         - llvm-openmp               # [osx]
     test:
-      requires:
-        - {{ compiler('c') }}
-      files:
-        - ${PREFIX}/share/compilers/c-compiler.txt
       commands:
-        - test -f ${PREFIX}/share/compilers/c-compiler.txt  # [unix]
-        - if exist %PREFIX%\share\compilers\c-compiler.txt (echo file exists) ELSE (echo file missing)  # [win]
         - $CC --help  # [unix]
-        # Test only the environment variables for platform-specific commands
+        # Linux-specific environment variable checks
         - echo "C compiler environment variables:" # [linux]
         - echo $CC # [linux]
         - which $CC || echo "$CC not found in PATH" # [linux]
-        - $CC --version # [linux]
+{%- for command in commands['c-compiler'] %}  # [unix and not linux]
+        - {{ command }} --help > /dev/null  # [unix and not linux]
+{%- endfor %}  # [unix and not linux]
         - echo "Testing Windows c-compiler"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - where cl  # [win]
 
   - name: cxx-compiler
-    build:
-      script: |
-        # Create placeholder file to ensure package is not empty
-        mkdir -p ${PREFIX}/share/compilers  # [unix]
-        echo "C++ compiler metapackage" > ${PREFIX}/share/compilers/cxx-compiler.txt  # [unix]
-        if not exist %PREFIX%\share\compilers mkdir %PREFIX%\share\compilers  # [win]
-        echo C++ compiler metapackage > %PREFIX%\share\compilers\cxx-compiler.txt  # [win]
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
@@ -112,33 +94,22 @@ outputs:
         - {{ compiler('cxx') }}
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
         - gxx_linux-aarch64    # [aarch64]
-        - gxx_linux-64         # [linux-64]
+        - gxx_linux-64         # [linux64]
     test:
-      requires:
-        - {{ compiler('cxx') }}
-      files:
-        - ${PREFIX}/share/compilers/cxx-compiler.txt
       commands:
-        - test -f ${PREFIX}/share/compilers/cxx-compiler.txt  # [unix]
-        - if exist %PREFIX%\share\compilers\cxx-compiler.txt (echo file exists) ELSE (echo file missing)  # [win]
         - $CXX --help  # [unix]
-        # Test only the environment variables for platform-specific commands
+        # Linux-specific environment variable checks
         - echo "C++ compiler environment variables:" # [linux]
         - echo $CXX # [linux] 
         - which $CXX || echo "$CXX not found in PATH" # [linux]
-        - $CXX --version # [linux]
+{%- for command in commands['cxx-compiler'] %}  # [unix and not linux]
+        - {{ command }} --help > /dev/null  # [unix and not linux]
+{%- endfor %}  # [unix and not linux]
         - echo "Testing Windows cxx-compiler"  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
         - where cl  # [win]
 
   - name: fortran-compiler
-    build:
-      script: |
-        # Create placeholder file to ensure package is not empty
-        mkdir -p ${PREFIX}/share/compilers  # [unix]
-        echo "Fortran compiler metapackage" > ${PREFIX}/share/compilers/fortran-compiler.txt  # [unix]
-        if not exist %PREFIX%\share\compilers mkdir %PREFIX%\share\compilers  # [win]
-        echo Fortran compiler metapackage > %PREFIX%\share\compilers\fortran-compiler.txt  # [win]
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
@@ -157,37 +128,27 @@ outputs:
       run:
         - {{ compiler('fortran') }}
         - binutils_aarch64     # [aarch64]
-        - binutils_linux-64    # [linux-64]
+        - binutils_linux-64    # [linux64]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
-        - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
+        - gfortran             # [unix]
+        - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
-      requires:
-        - {{ compiler('fortran') }}
-      files:
-        - ${PREFIX}/share/compilers/fortran-compiler.txt
       commands:
-        - test -f ${PREFIX}/share/compilers/fortran-compiler.txt  # [unix]
-        - if exist %PREFIX%\share\compilers\fortran-compiler.txt (echo file exists) ELSE (echo file missing)  # [win]
         - $FC --help  # [unix]
-        # Test only the environment variables for platform-specific commands
+        # Linux-specific environment variable checks
         - echo "Fortran compiler environment variables:" # [linux]
         - echo $FC # [linux]
         - which $FC || echo "$FC not found in PATH" # [linux]
-        - $FC --version # [linux]
+{%- for command in commands['fortran-compiler'] %}  # [unix and not linux]
+        - {{ command }} --help > /dev/null  # [unix and not linux]
+{%- endfor %}  # [unix and not linux]
         - echo "Testing Windows fortran-compiler"  # [win]
         - if defined FC (echo %FC% exists) ELSE (echo FC not defined)  # [win]
         - where ifort || echo ifort not in PATH  # [win]
 
   - name: compilers
-    build:
-      script: |
-        # Create placeholder file to ensure package is not empty
-        mkdir -p ${PREFIX}/share/compilers  # [unix]
-        echo "Compilers metapackage" > ${PREFIX}/share/compilers/compilers.txt  # [unix]
-        if not exist %PREFIX%\share\compilers mkdir %PREFIX%\share\compilers  # [win]
-        echo Compilers metapackage > %PREFIX%\share\compilers\compilers.txt  # [win]
     about:
       home: https://conda-forge.org
       license: BSD-3-Clause
@@ -199,19 +160,15 @@ outputs:
         - {{ pin_subpackage('cxx-compiler', exact=True) }}
         - {{ pin_subpackage('fortran-compiler', exact=True) }}
     test:
-      files:
-        - ${PREFIX}/share/compilers/compilers.txt
       commands:
-        - test -f ${PREFIX}/share/compilers/compilers.txt  # [unix]
-        - if exist %PREFIX%\share\compilers\compilers.txt (echo file exists) ELSE (echo file missing)  # [win]
-        - echo "Testing compiler environment variables" # [unix]
-        - echo $CC # [unix]
-        - echo $CXX # [unix]
-        - echo $FC # [unix]
-        # Add Linux-specific tests to verify compiler path and version
-        - which $CC || echo "$CC not found in PATH" # [linux]
-        - which $CXX || echo "$CXX not found in PATH" # [linux]
-        - which $FC || echo "$FC not found in PATH" # [linux]
+        - $CC --help  # [unix]
+        - $CXX --help  # [unix]
+        - $FC --help  # [unix]
+        # Add Linux-specific tests
+        - echo "Compiler environment variables:" # [linux]
+        - echo $CC # [linux]
+        - echo $CXX # [linux]
+        - echo $FC # [linux]
         - echo "Testing Windows compilers metapackage"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined)  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined)  # [win]
