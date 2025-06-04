@@ -53,8 +53,7 @@ outputs:
     requirements:
       run:
         - {{ compiler('c') }}
-        - binutils_aarch64     # [aarch64]
-        - binutils_linux-64    # [linux64]
+        - binutils             # [linux]
         - gcc_linux-aarch64    # [aarch64]
         - gcc_linux-64         # [linux64]
         - cctools >=949.0.1         # [osx]
@@ -66,7 +65,7 @@ outputs:
         # Linux-specific environment variable checks
         - echo "C compiler environment variables:" # [linux]
         - echo $CC # [linux]
-        - which $CC || echo "$CC not found in PATH" # [linux]
+        - test -f "$CC" || echo "$CC not found" # [linux]
 {%- for command in commands['c-compiler'] %}  # [unix and not linux]
         - {{ command }} --help > /dev/null  # [unix and not linux]
 {%- endfor %}  # [unix and not linux]
@@ -101,7 +100,7 @@ outputs:
         # Linux-specific environment variable checks
         - echo "C++ compiler environment variables:" # [linux]
         - echo $CXX # [linux] 
-        - which $CXX || echo "$CXX not found in PATH" # [linux]
+        - test -f "$CXX" || echo "$CXX not found" # [linux]
 {%- for command in commands['cxx-compiler'] %}  # [unix and not linux]
         - {{ command }} --help > /dev/null  # [unix and not linux]
 {%- endfor %}  # [unix and not linux]
@@ -127,12 +126,11 @@ outputs:
     requirements:
       run:
         - {{ compiler('fortran') }}
-        - binutils_aarch64     # [aarch64]
-        - binutils_linux-64    # [linux64]
+        - binutils
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
-        - gfortran             # [unix]
+        - libgfortran5         # [unix]
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [linux]
     test:
       commands:
@@ -140,7 +138,7 @@ outputs:
         # Linux-specific environment variable checks
         - echo "Fortran compiler environment variables:" # [linux]
         - echo $FC # [linux]
-        - which $FC || echo "$FC not found in PATH" # [linux]
+        - test -f "$FC" || echo "$FC not found" # [linux]
 {%- for command in commands['fortran-compiler'] %}  # [unix and not linux]
         - {{ command }} --help > /dev/null  # [unix and not linux]
 {%- endfor %}  # [unix and not linux]
