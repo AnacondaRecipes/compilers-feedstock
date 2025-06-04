@@ -54,8 +54,10 @@ outputs:
       run:
         - {{ compiler('c') }}
         - binutils             # [linux]
-        - gcc_linux-aarch64    # [aarch64]
+        - gcc_linux-aarch64    # [linux and aarch64]
         - gcc_linux-64         # [linux64]
+        - clang_osx-arm64      # [osx and arm64]
+        - clang_osx-64         # [osx and x86_64]
         - cctools >=949.0.1         # [osx]
         - ld64 >=530                # [osx]
         - llvm-openmp               # [osx]
@@ -92,8 +94,10 @@ outputs:
       run:
         - {{ compiler('cxx') }}
         - {{ pin_subpackage('c-compiler', exact=True) }}  # [unix]
-        - gxx_linux-aarch64    # [aarch64]
+        - gxx_linux-aarch64    # [linux and aarch64]
         - gxx_linux-64         # [linux64]
+        - clangxx_osx-arm64    # [osx and arm64]
+        - clangxx_osx-64       # [osx and x86_64]
     test:
       commands:
         - $CXX --help  # [unix]
@@ -126,7 +130,11 @@ outputs:
     requirements:
       run:
         - {{ compiler('fortran') }}
-        - binutils
+        - binutils             # [linux]
+        - gfortran_linux-aarch64  # [linux and aarch64]
+        - gfortran_linux-64       # [linux64]
+        - gfortran_osx-arm64      # [osx and arm64]
+        - gfortran_osx-64         # [osx and x86_64]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
