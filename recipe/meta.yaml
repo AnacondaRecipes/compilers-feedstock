@@ -160,6 +160,15 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE.txt
       summary: A metapackage to obtain compilers
+      description: |
+        This package is a generic way to obtain the C, C++ and Fortran compilers for your system
+        that Anaconda used to compile its ecosystem.  This compiler is,
+        therefore, guaranteed to be ABI compatible with the conda packages
+        you have installed.
+
+        This compiler metapackage is a convenience ONLY for users.
+        Do NOT use this package as a build or host dependency in other
+        recipes.  Use the Jinja template functions compiler('c'), compiler('cxx') and compiler('fortran') instead.
     requirements:
       run:
         - {{ pin_subpackage('c-compiler', exact=True) }}
