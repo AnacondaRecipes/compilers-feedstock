@@ -67,7 +67,7 @@ outputs:
         # Linux-specific environment variable checks
         - echo "C compiler environment variables:" # [unix]
         - echo CC=$CC # [unix]
-        - test -f "$CC"  # [linux]
+        - command -v "$CC" > /dev/null  # [unix]
 {%- for command in commands['c-compiler'] %}  # [unix]
         - $PREFIX/bin/${BUILD}-{{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
@@ -104,7 +104,7 @@ outputs:
         # Linux-specific environment variable checks
         - echo "C++ compiler environment variables:" # [unix]
         - echo CXX=$CXX # [unix] 
-        - test -f "$CXX"  # [linux]
+        - command -v "$CXX" > /dev/null  # [unix]
 {%- for command in commands['cxx-compiler'] %}  # [unix]
         - $PREFIX/bin/${BUILD}-{{ command }} --help  # [unix]
 {%- endfor %}  # [unix]
@@ -146,7 +146,7 @@ outputs:
         # Linux-specific environment variable checks
         - echo "Fortran compiler environment variables:" # [unix]
         - echo FC=$FC # [unix]
-        - test -f "$FC"  # [linux]
+        - command -v "$FC" > /dev/null  # [unix]
 {%- for command in commands['fortran-compiler'] %}  # [unix]
         - $PREFIX/bin/${BUILD}-{{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
