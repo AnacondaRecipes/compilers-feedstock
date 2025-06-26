@@ -151,8 +151,7 @@ outputs:
         - {{ command }} --help > /dev/null  # [unix and not linux]
 {%- endfor %}  # [unix and not linux]
         - echo "Testing Windows fortran-compiler"  # [win]
-        - if defined FC (echo %FC% exists) ELSE (echo FC not defined & exit /b 1)  # [win]
-        - where ifort || echo ifort not in PATH  # [win]
+        - where ifort || (echo ifort not in PATH & exit /b 1)  # [win]
 
   - name: compilers
     about:
@@ -187,7 +186,6 @@ outputs:
         - echo "Testing Windows compilers metapackage"  # [win]
         - if defined CC (echo %CC% exists) ELSE (echo CC not defined & exit /b 1)  # [win]
         - if defined CXX (echo %CXX% exists) ELSE (echo CXX not defined & exit /b 1)  # [win]
-        - if defined FC (echo %FC% exists) ELSE (echo FC not defined & exit /b 1)  # [win]
 
 about:
   home: https://conda-forge.org
