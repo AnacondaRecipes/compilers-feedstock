@@ -1,15 +1,14 @@
 c_compiler:
-- vs2008
+- vs2019
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2008
+- vs2019
 fortran_compiler:
 - flang
 fortran_compiler_version:
-- '5'
-zip_keys:
-- - c_compiler
-  - cxx_compiler
+- '19'
+target_platform:
+- win-64
