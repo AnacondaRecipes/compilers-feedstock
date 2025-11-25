@@ -29,7 +29,7 @@
 
 package:
   name: compilers
-  version: 1.9.1
+  version: 1.11.0
 
 build:
    number: 0
@@ -103,7 +103,7 @@ outputs:
         - $CXX --help  # [unix]
         # Linux-specific environment variable checks
         - echo "C++ compiler environment variables:" # [unix]
-        - echo CXX=$CXX # [unix] 
+        - echo CXX=$CXX # [unix]
         - command -v "$CXX" > /dev/null  # [unix]
 {%- for command in commands['cxx-compiler'] %}  # [unix]
         - $PREFIX/bin/${BUILD}-{{ command }} --help  # [unix]
