@@ -23,13 +23,14 @@
   'fortran-compiler': {
     'gfortran': ['gfortran'],
     'intel-fortran' : ['ifort'],
+    'flang': ['flang'],
   }[fortran_compiler],
 } %}
 
 
 package:
   name: compilers
-  version: 1.11.0
+  version: 1.12.0
 
 build:
    number: 0
@@ -139,6 +140,7 @@ outputs:
         - gfortran_linux-64       # [linux64]
         - gfortran_osx-arm64      # [osx and arm64]
         - gfortran_osx-64         # [osx and x86_64]
+        - flang_win-64            # [win]
         - cctools >=949.0.1    # [osx]
         - ld64 >=530           # [osx]
         - llvm-openmp          # [osx]
@@ -156,8 +158,8 @@ outputs:
         - $PREFIX/bin/${BUILD}-{{ command }} --help > /dev/null  # [unix]
 {%- endfor %}  # [unix]
         - echo "Testing Windows fortran-compiler"  # [win]
-        - where ifort || (echo ifort not in PATH & exit /b 1)  # [win]
-        - ifort /help  # [win]
+        - where flang || (echo flang not in PATH & exit /b 1)  # [win]
+        - flang --version  # [win]
 
   - name: compilers
     about:
